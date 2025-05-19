@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Guidelines | Calendly-Elevenlabs Integration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #6a11cb;
+      --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      --secondary-color: #2575fc;
+      --text-color: #212529;
+      --light-bg: #f8f9fa;
+      --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      --section-padding: 5rem 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text-color);
+      position: relative;
+      min-height: 100vh;
+      padding-bottom: 80px; /* Space for footer */
+    }
+    
+    .hero {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 3rem 0;
+      margin-bottom: 3rem;
+      border-radius: 0 0 20px 20px;
+    }
+    
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .btn-primary {
+      background: var(--primary-gradient);
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+    }
+    
+    .nav-pills .nav-link {
+      border-radius: 50px;
+      padding: 0.75rem 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-pills .nav-link:hover {
+      background-color: rgba(106, 17, 203, 0.1);
+    }
+    
+    .nav-pills .nav-link.active {
+      background: var(--primary-gradient);
+      color: white;
+      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+    }
+    
+    .documentation-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .documentation-card .card-header {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 1rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    
+    .documentation-card .card-body {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .documentation-card .btn {
+      margin-top: auto;
+    }
+    
+    .cta-section {
+      background-color: white;
+      border-radius: 15px;
+      padding: 3rem;
+      margin: 3rem 0;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+    }
+    
+    .quick-links {
+      background: rgba(106, 17, 203, 0.05);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .quick-links h3 {
+      margin-bottom: 1rem;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+    
+    .quick-links ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    
+    .quick-links ul li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .quick-links ul li a {
+      display: flex;
+      align-items: center;
+      color: var(--primary-color);
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 5px;
+      transition: all 0.2s ease;
+    }
+    
+    .quick-links ul li a:hover {
+      background-color: rgba(106, 17, 203, 0.1);
+    }
+    
+    .quick-links ul li a i {
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .architecture-diagram {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 2rem;
+    }
+    
+    .architecture-diagram img {
+      max-width: 100%;
+      height: auto;
+    }
+    
+    footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 1.5rem 0;
+      background-color: #212529;
+      color: #f8f9fa;
+    }
+    
+    /* Code examples styling */
+    pre {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 1rem;
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+    
+    code {
+      color: var(--primary-color);
+    }
+    
+    /* Table of contents */
+    .toc {
+      position: sticky;
+      top: 2rem;
+      max-height: calc(100vh - 4rem);
+      overflow-y: auto;
+      padding-right: 1rem;
+    }
+    
+    @media (max-width: 991px) {
+      .toc {
+        position: static;
+        max-height: none;
+      }
+    }
+
+    /* Security checklist styling */
+    .security-checklist {
+      background-color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: var(--card-shadow);
+    }
+
+    .security-checklist .checklist-item {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      transition: background-color 0.2s;
+    }
+
+    .security-checklist .checklist-item:last-child {
+      border-bottom: none;
+    }
+
+    .security-checklist .checklist-item:hover {
+      background-color: rgba(106, 17, 203, 0.05);
+    }
+
+    .security-checklist .checklist-icon {
+      font-size: 1.5rem;
+      color: #6ac259;
+      margin-right: 1rem;
+    }
+
+    .security-alert {
+      background-color: rgba(255, 193, 7, 0.1);
+      border-left: 4px solid #ffc107;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 5px;
+    }
+
+    .security-alert i {
+      color: #ffc107;
+      margin-right: 0.5rem;
+    }
+
+    .success-alert {
+      background-color: rgba(40, 167, 69, 0.1);
+      border-left: 4px solid #28a745;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 5px;
+    }
+
+    .success-alert i {
+      color: #28a745;
+      margin-right: 0.5rem;
+    }
+
+    .danger-alert {
+      background-color: rgba(220, 53, 69, 0.1);
+      border-left: 4px solid #dc3545;
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 5px;
+    }
+
+    .danger-alert i {
+      color: #dc3545;
+      margin-right: 0.5rem;
+    }
+
+    .code-generator {
+      background-color: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      box-shadow: var(--card-shadow);
+    }
+
+    .security-steps {
+      background-color: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: var(--card-shadow);
+    }
+
+    .security-step {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .security-step:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      height: 30px;
+      background: var(--primary-gradient);
+      color: white;
+      border-radius: 50%;
+      font-weight: bold;
+      margin-right: 15px;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .step-content {
+      padding-left: 45px;
+    }
+
+    .security-tabs .nav-link {
+      font-weight: 500;
+      color: var(--text-color);
+      border-radius: 0;
+      border: none;
+      border-bottom: 3px solid transparent;
+      padding: 0.75rem 1.25rem;
+      margin-right: 1rem;
+    }
+
+    .security-tabs .nav-link.active {
+      color: var(--primary-color);
+      background: transparent;
+      border-bottom: 3px solid var(--primary-color);
+    }
+
+    .security-tabs .nav-link:hover:not(.active) {
+      border-bottom: 3px solid #e9ecef;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <div class="hero text-center">
+    <div class="container">
+      <h1 class="display-5 fw-bold mb-3">Security Guidelines</h1>
+      <p class="lead mb-4">Simple, practical security for your Calendly-Elevenlabs Integration</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container mb-5">
+    <div class="row">
+      <!-- Sidebar Navigation -->
+      <div class="col-lg-3">
+        <div class="toc">
+          <div class="quick-links">
+            <h3>Documentation</h3>
+            <ul class="nav flex-column nav-pills">
+              <li class="nav-item">
+                <a class="nav-link" href="help.html">Overview</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="setup.html">Setup Guide</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="integrations.html">Integration Setup</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="agent-builder-guide.html">Agent Builder Guide</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="prompt-guide.html">System Prompt Guide</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="technical.html">Technical Reference</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="security.html">Security Guidelines</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="troubleshooting.html">Troubleshooting</a>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="quick-links">
+            <h3>On This Page</h3>
+            <ul>
+              <li>
+                <a href="#security-overview"><i class="fas fa-shield-alt"></i> Security Overview</a>
+              </li>
+              <li>
+                <a href="#security-checklist"><i class="fas fa-tasks"></i> Security Checklist</a>
+              </li>
+              <li>
+                <a href="#api-key-rotation"><i class="fas fa-sync"></i> API Key Rotation</a>
+              </li>
+              <li>
+                <a href="#creating-strong-keys"><i class="fas fa-key"></i> Creating Strong Keys</a>
+              </li>
+              <li>
+                <a href="#env-file-protection"><i class="fas fa-file-alt"></i> .env File Protection</a>
+              </li>
+              <li>
+                <a href="#elevenlabs-secrets"><i class="fas fa-user-secret"></i> Elevenlabs Secrets</a>
+              </li>
+              <li>
+                <a href="#cors-settings"><i class="fas fa-globe"></i> CORS Settings</a>
+              </li>
+              <li>
+                <a href="#deployment-security"><i class="fas fa-server"></i> Deployment Security</a>
+              </li>
+              <li>
+                <a href="#error-handling"><i class="fas fa-bug"></i> Error Handling</a>
+              </li>
+              <li>
+                <a href="#security-faq"><i class="fas fa-question-circle"></i> Security FAQ</a>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="quick-links">
+            <h3>Quick Links</h3>
+            <ul>
+              <li>
+                <a href="/agent-builder.html"><i class="fas fa-robot"></i> Agent Builder</a>
+              </li>
+              <li>
+                <a href="/prompt-builder.html"><i class="fas fa-edit"></i> Prompt Builder</a>
+              </li>
+              <li>
+                <a href="https://github.com/jammm1n/calendly-elevenlabs-server-tiktok" target="_blank">
+                  <i class="fab fa-github"></i> GitHub Repository
+                </a>
+              </li>
+              <li>
+                <a href="https://www.tiktok.com/@ai_entrepreneur_educator" target="_blank">
+                  <i class="fab fa-youtube"></i> Tutorial Videos
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Main Content Area -->
+      <div class="col-lg-9">
+        <div id="security-overview">
+          <h2 class="mb-4">Security Best Practices</h2>
+          
+          <div class="card mb-4">
+            <div class="card-body">
+              <h3>Security for Your Integration</h3>
+              <p>This application includes several security features to protect your API keys, personal data, and server from potential misuse. Since you're self-hosting this application, understanding these basic security concepts will help keep your integration safe and reliable.</p>
+              
+              <div class="security-alert">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> This application handles your Calendly data and Elevenlabs voice agent. While it's designed for educational purposes, following these security practices is still important to protect your accounts and data.
+              </div>
+              
+              <p>The good news is that security doesn't have to be complicated. This guide will walk you through simple steps to ensure your deployment is properly secured.</p>
+            </div>
+          </div>
+          
+          <div id="security-checklist" class="security-checklist mb-4">
+            <h3 class="mb-4">Security Checklist</h3>
+            <p>Use this checklist to verify your deployment is properly secured:</p>
+            
+            <div class="checklist-item d-flex align-items-start">
+              <span class="checklist-icon"><i class="fas fa-check-circle"></i></span>
+              <div>
+                <h5>Strong API Key</h5>
+                <p>Set a secure API_KEY in your .env file (at least 16 random characters)</p>
+              </div>
+            </div>
+            
+            <div class="checklist-item d-flex align-items-start">
+              <span class="checklist-icon"><i class="fas fa-check-circle"></i></span>
+              <div>
+                <h5>Strong Admin Password</h5>
+                <p>Set a secure ADMIN_PASSWORD in your .env file (different from your API key)</p>
+              </div>
+            </div>
+            
+            <div class="checklist-item d-flex align-items-start">
+              <span class="checklist-icon"><i class="fas fa-check-circle"></i></span>
+              <div>
+                <h5>API Key Rotation</h5>
+                <p>Rotate your API key after creating an agent to prevent exposure in Elevenlabs</p>
+              </div>
+            </div>
+            
+            <div class="checklist-item d-flex align-items-start">
+              <span class="checklist-icon"><i class="fas fa-check-circle"></i></span>
+              <div>
+                <h5>Use Elevenlabs Secrets</h5>
+                <p>Use Elevenlabs secrets instead of plaintext API keys in agent configurations</p>
+              </div>
+            </div>
+            
+            <div class="checklist-item d-flex align-items-start">
+              <span class="checklist-icon"><i class="fas fa-check-circle"></i></span>
+              <div>
+                <h5>Private Environment Variables</h5>
+                <p>Ensure your .env file is NOT included in version control</p>
+              </div>
+            </div>
+            
+            <div class="checklist-item d-flex align-items-start">
+              <span class="checklist-icon"><i class="fas fa-check-circle"></i></span>
+              <div>
+                <h5>HTTPS Enabled</h5>
+                <p>Verify your production deployment uses HTTPS (automatic with Render)</p>
+              </div>
+            </div>
+            
+            <div class="checklist-item d-flex align-items-start">
+              <span class="checklist-icon"><i class="fas fa-check-circle"></i></span>
+              <div>
+                <h5>CORS Settings for Production</h5>
+                <p>Configure ALLOWED_ORIGINS in production if needed</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="api-key-rotation" class="card mb-4">
+            <div class="card-header">
+              <h4 class="mb-0"><i class="fas fa-sync-alt me-2"></i>API Key Rotation After Agent Creation</h4>
+            </div>
+            <div class="card-body">
+              <div class="danger-alert">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Critical Security Notice:</strong> When you use the Agent Builder to create an agent, your server's API key is exposed in plaintext in the Elevenlabs agent configuration. You must consider this key compromised and rotate it immediately.
+              </div>
+              
+              <p>This is a known limitation in the integration process. To properly secure your deployment, follow this API key rotation process after creating your voice agent:</p>
+              
+              <div class="security-steps">
+                <div class="security-step">
+                  <div class="step-header">
+                    <span class="step-number">1</span>
+                    <strong>Generate a New API Key</strong>
+                  </div>
+                  <div class="step-content">
+                    <p>Create a new secure API key using the generator below or another secure method:</p>
+                    <div class="code-generator">
+                      <div class="input-group mb-3">
+                        <input type="text" id="generatedKey" class="form-control" placeholder="Generated key will appear here" readonly>
+                        <button class="btn btn-primary" type="button" id="generateBtn" onclick="generateSecureKey()">Generate Key</button>
+                        <button class="btn btn-outline-secondary" type="button" id="copyBtn" onclick="copyToClipboard()">
+                          <i class="fas fa-copy"></i>
+                        </button>
+                      </div>
+                      
+                      <div class="success-alert" id="copiedAlert" style="display: none;">
+                        <i class="fas fa-check-circle"></i> Copied to clipboard!
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="security-step">
+                  <div class="step-header">
+                    <span class="step-number">2</span>
+                    <strong>Update Your Server Environment Variable</strong>
+                  </div>
+                  <div class="step-content">
+                    <p>Replace your original (now compromised) API key with the new one:</p>
+                    <ol>
+                      <li>Go to your Render dashboard (or wherever your server is hosted)</li>
+                      <li>Navigate to the Environment Variables section</li>
+                      <li>Find the <code>API_KEY</code> variable</li>
+                      <li>Update its value with your new API key</li>
+                      <li>Save the changes and wait for your server to redeploy</li>
+                    </ol>
+                    <p class="text-muted">Note: This usually takes a few minutes. Your server won't accept requests with the old API key after redeployment.</p>
+                  </div>
+                </div>
+                
+                <div class="security-step">
+                  <div class="step-header">
+                    <span class="step-number">3</span>
+                    <strong>Create a Secret in Elevenlabs</strong>
+                  </div>
+                  <div class="step-content">
+                    <p>Next, create a secret in Elevenlabs that contains your new API key:</p>
+                    <ol>
+                      <li>Login to Elevenlabs and go to your workspace</li>
+                      <li>Navigate to Settings → Secrets</li>
+                      <li>Click "Add Secret"</li>
+                      <li>Name: "Server API Key" (or another descriptive name)</li>
+                      <li>Value: Paste your <strong>new</strong> API key</li>
+                      <li>Save the secret and note the secret ID (you'll need it in the next step)</li>
+                    </ol>
+                    <img src="images/elevenlabs-secret.png" alt="Creating a secret in Elevenlabs" class="img-fluid rounded border my-3">
+                  </div>
+                </div>
+                
+                <div class="security-step">
+                  <div class="step-header">
+                    <span class="step-number">4</span>
+                    <strong>Update All Agent Webhooks</strong>
+                  </div>
+                  <div class="step-content">
+                    <p>You need to update all webhook configurations in your agent to use the secret instead of plaintext:</p>
+                    <ol>
+                      <li>Go to your agent in Elevenlabs</li>
+                      <li>Click "Edit Agent" and go to the "Code" tab</li>
+                      <li>Find each webhook function (there are usually 3-4)</li>
+                      <li>Replace <code>"X-API-Key": "your-old-key-here"</code> with:<br>
+                      <code>"X-API-Key": { "secret_id": "your-secret-id-here" }</code></li>
+                      <li>Also check the <code>workspace_overrides</code> section for any additional API key references</li>
+                      <li>Save your changes</li>
+                    </ol>
+                    
+                    <div class="row mt-3">
+                      <div class="col-md-6">
+                        <div class="card">
+                          <div class="card-header bg-danger text-white">
+                            <i class="fas fa-times-circle me-2"></i>Insecure (Before)
+                          </div>
+                          <div class="card-body">
+                            <pre><code>"request_headers": {
+  "X-API-Key": "ziggy£0o*}.D",
+  "Content-Type": "application/json"
+}</code></pre>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="card">
+                          <div class="card-header bg-success text-white">
+                            <i class="fas fa-check-circle me-2"></i>Secure (After)
+                          </div>
+                          <div class="card-body">
+                            <pre><code>"request_headers": {
+  "X-API-Key": {
+    "secret_id": "3CFTfMHXblNPQRd6p1uF"
+  },
+  "Content-Type": "application/json"
+}</code></pre>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="security-step">
+                  <div class="step-header">
+                    <span class="step-number">5</span>
+                    <strong>Test Your Agent</strong>
+                  </div>
+                  <div class="step-content">
+                    <p>After making these changes, test your agent to ensure everything is working correctly:</p>
+                    <ol>
+                      <li>Use the "Test" button in Elevenlabs to simulate a conversation</li>
+                      <li>Verify that your agent can still successfully retrieve availability data</li>
+                      <li>If you get "Unauthorized" errors, double-check that:
+                        <ul>
+                          <li>Your server has finished redeploying with the new API key</li>
+                          <li>The API key in your server exactly matches the one in your Elevenlabs secret</li>
+                          <li>You've updated all instances of the API key in the agent configuration</li>
+                        </ul>
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="success-alert mt-4">
+                <i class="fas fa-check-circle"></i> <strong>Benefits of API Key Rotation:</strong> 
+                <ul class="mb-0">
+                  <li>Invalidates the exposed API key in the original agent configuration</li>
+                  <li>Prevents unauthorized access to your server and Calendly data</li>
+                  <li>Follows security best practices for credential lifecycle management</li>
+                  <li>Establishes a pattern of regular security maintenance</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div id="creating-strong-keys" class="card mb-4">
+            <div class="card-header">
+              <h4 class="mb-0"><i class="fas fa-key me-2"></i>Creating Strong API Keys & Passwords</h4>
+            </div>
+            <div class="card-body">
+              <p>Your application requires two different security credentials:</p>
+              <ul>
+                <li><strong>API_KEY</strong> - Used to authenticate API requests</li>
+                <li><strong>ADMIN_PASSWORD</strong> - Used to protect admin pages</li>
+              </ul>
+              
+              <p>These should be:</p>
+              <ul>
+                <li>At least 16 characters long</li>
+                <li>Include a mix of letters, numbers, and symbols</li>
+                <li>Not based on dictionary words</li>
+                <li>Different from each other and any other passwords you use</li>
+              </ul>
+              
+              <div class="code-generator">
+                <h5>Generate a Secure API Key</h5>
+                <p>You can use this button to generate a secure random API key:</p>
+                
+                <div class="input-group mb-3">
+                  <input type="text" id="generatedKey2" class="form-control" placeholder="Generated key will appear here" readonly>
+                  <button class="btn btn-primary" type="button" id="generateBtn2" onclick="generateSecureKey2()">Generate Key</button>
+                  <button class="btn btn-outline-secondary" type="button" id="copyBtn2" onclick="copyToClipboard2()">
+                    <i class="fas fa-copy"></i>
+                  </button>
+                </div>
+                
+                <div class="success-alert" id="copiedAlert2" style="display: none;">
+                  <i class="fas fa-check-circle"></i> Copied to clipboard!
+                </div>
+                
+                <script>
+                  // Generate a secure random API key
+                  function generateSecureKey() {
+                    const length = 32;
+                    const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+                    let result = "";
+                    
+                    for (let i = 0; i < length; i++) {
+                      const randomIndex = Math.floor(Math.random() * charset.length);
+                      result += charset.charAt(randomIndex);
+                    }
+                    
+                    document.getElementById("generatedKey").value = result;
+                  }
+                  
+                  // Copy the generated key to clipboard
+                  function copyToClipboard() {
+                    const copyText = document.getElementById("generatedKey");
+                    copyText.select();
+                    copyText.setSelectionRange(0, 99999);
+                    navigator.clipboard.writeText(copyText.value);
+                    
+                    const alert = document.getElementById("copiedAlert");
+                    alert.style.display = "block";
+                    setTimeout(() => {
+                      alert.style.display = "none";
+                    }, 2000);
+                  }
+                  
+                  // Function for the second key generator
+                  function generateSecureKey2() {
+                    const length = 32;
+                    const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
+                    let result = "";
+                    
+                    for (let i = 0; i < length; i++) {
+                      const randomIndex = Math.floor(Math.random() * charset.length);
+                      result += charset.charAt(randomIndex);
+                    }
+                    
+                    document.getElementById("generatedKey2").value = result;
+                  }
+                  
+                  // Copy the second generated key to clipboard
+                  function copyToClipboard2() {
+                    const copyText = document.getElementById("generatedKey2");
+                    copyText.select();
+                    copyText.setSelectionRange(0, 99999);
+                    navigator.clipboard.writeText(copyText.value);
+                    
+                    const alert = document.getElementById("copiedAlert2");
+                    alert.style.display = "block";
+                    setTimeout(() => {
+                      alert.style.display = "none";
+                    }, 2000);
+                  }
+                  
+                  // Add event listeners when the document is loaded
+                  document.addEventListener('DOMContentLoaded', function() {
+                    // Add event listeners for the first generator
+                    const generateBtn = document.getElementById('generateBtn');
+                    const copyBtn = document.getElementById('copyBtn');
+                    if (generateBtn) generateBtn.addEventListener('click', generateSecureKey);
+                    if (copyBtn) copyBtn.addEventListener('click', copyToClipboard);
+                    
+                    // Add event listeners for the second generator
+                    const generateBtn2 = document.getElementById('generateBtn2');
+                    const copyBtn2 = document.getElementById('copyBtn2');
+                    if (generateBtn2) generateBtn2.addEventListener('click', generateSecureKey2);
+                    if (copyBtn2) copyBtn2.addEventListener('click', copyToClipboard2);
+                  });
+                </script>
+              </div>
+              
+              <div class="security-alert mt-4">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Never share your API key or admin password!</strong> These credentials provide full access to your application. If you need to share access with someone, consider creating a new deployment for them instead.
+              </div>
+            </div>
+          </div>
+          
+          <div id="elevenlabs-secrets" class="card mb-4">
+            <div class="card-header">
+              <h4 class="mb-0"><i class="fas fa-user-secret me-2"></i>Using Elevenlabs Secrets</h4>
+            </div>
+            <div class="card-body">
+              <p>Elevenlabs provides a secrets management system that allows you to securely store and reference API keys and other sensitive data in your agent configurations. This is essential for preventing your API key from being exposed in plaintext.</p>
+              
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                      How to Create a Secret
+                    </div>
+                    <div class="card-body">
+                      <ol>
+                        <li>Log in to Elevenlabs and go to your workspace</li>
+                        <li>Navigate to Settings → Secrets</li>
+                        <li>Click "Add Secret"</li>
+                        <li>Enter a name (e.g., "Server API Key")</li>
+                        <li>Enter the value (your API key)</li>
+                        <li>Click "Create Secret"</li>
+                        <li>Note the generated Secret ID for use in your agent configuration</li>
+                      </ol>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="card mb-3">
+                    <div class="card-header bg-primary text-white">
+                      How to Use a Secret in Your Agent
+                    </div>
+                    <div class="card-body">
+                      <p>Whenever your agent configuration contains an API key (usually in the <code>request_headers</code> section), replace the plaintext value with a secret reference:</p>
+                      
+                      <pre><code>// Before:
+"X-API-Key": "your-api-key-here"
+
+// After:
+"X-API-Key": {
+  "secret_id": "your-secret-id-here"
+}</code></pre>
+                      
+                      <p>You'll need to update this in all webhook functions and in the <code>workspace_overrides</code> section.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="security-alert mt-3">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> The Agent Builder currently cannot automatically create or use Elevenlabs secrets. You must manually update your agent configuration after creation to use secrets.
+              </div>
+              
+              <div class="success-alert mt-3">
+                <i class="fas fa-check-circle"></i> <strong>Benefits of Using Secrets:</strong>
+                <ul class="mb-0">
+                  <li>Prevents exposure of sensitive credentials in your agent's configuration</li>
+                  <li>Makes it easier to rotate credentials (you only need to update the secret, not the agent)</li>
+                  <li>Follows security best practices for credential management</li>
+                  <li>Reduces the risk of unauthorized access to your services</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+          <div id="env-file-protection" class="card mb-4">
+            <div class="card-header">
+              <h4 class="mb-0"><i class="fas fa-file-alt me-2"></i>Protecting Your .env File</h4>
+            </div>
+            <div class="card-body">
+              <p>The <code>.env</code> file contains all your sensitive API keys and credentials. It's crucial to keep this file secure:</p>
+              
+              <h5>Best Practices:</h5>
+              <ul>
+                <li>Never commit your <code>.env</code> file to Git repositories</li>
+                <li>Always use <code>.env.example</code> in repositories instead</li>
+                <li>If you accidentally commit your <code>.env</code> file, rotate all API keys immediately</li>
+                <li>Set up <code>.gitignore</code> to exclude the <code>.env</code> file</li>
+              </ul>
+              
+              <h5>Setting up .gitignore</h5>
+              <p>Make sure your <code>.gitignore</code> file contains this line:</p>
+              <pre><code># Ignore environment variables file
+.env
+.env.local</code></pre>
+              
+              <div class="security-alert">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> If you fork this repository, verify that <code>.env</code> is already in the <code>.gitignore</code> file before adding your credentials.
+              </div>
+            </div>
+          </div>
+          
+          <div id="cors-settings" class="card mb-4">
+            <div class="card-header">
+              <h4 class="mb-0"><i class="fas fa-globe me-2"></i>Understanding CORS Settings</h4>
+            </div>
+            <div class="card-body">
+              <p>CORS (Cross-Origin Resource Sharing) controls which websites can access your API. The application includes the following CORS configuration:</p>
+              
+              <pre><code>// Configure CORS with more restrictive settings
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? [process.env.APP_URL || 'http://localhost:3000'].concat(
+        (process.env.ALLOWED_ORIGINS || '').split(',').filter(origin => origin.trim())
+      )
+    : '*', // Allow all origins in development
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key'],
+  credentials: true,
+  maxAge: 86400 // 24 hours
+};</code></pre>
+              
+              <h5>What This Means:</h5>
+              <ul>
+                <li>In development: All websites can access your API (more permissive for easier testing)</li>
+                <li>In production: Only specified websites can access your API (more secure)</li>
+              </ul>
+              
+              <h5>Setting ALLOWED_ORIGINS:</h5>
+              <p>If you need to access your API from other websites, add this to your .env file:</p>
+              <pre><code>ALLOWED_ORIGINS=https://your-website.com,https://another-site.com</code></pre>
+              
+              <div class="security-alert">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Note:</strong> For most self-hosted deployments, you won't need to change the CORS settings. Only modify these if you're building a separate frontend that needs to access your API.
+              </div>
+            </div>
+          </div>
+          
+          <div id="deployment-security" class="card mb-4">
+            <div class="card-header">
+              <h4 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Deployment Security</h4>
+            </div>
+            <div class="card-body">
+              <p>When deploying your application, these additional security considerations are important:</p>
+              
+              <h5>Render Deployment (Recommended)</h5>
+              <ul>
+                <li>Render automatically enables HTTPS</li>
+                <li>Set all environment variables through the Render dashboard</li>
+                <li>Mark environment variables as "Secret" in Render</li>
+                <li>Enable "Auto-Deploy" only if your repository is private</li>
+              </ul>
+              
+              <h5>Other Hosting Providers</h5>
+              <ul>
+                <li>Always enable HTTPS</li>
+                <li>Use environment variables instead of hardcoding credentials</li>
+                <li>Consider using a firewall if you want to restrict access by IP</li>
+                <li>Keep your deployment up to date with security patches</li>
+              </ul>
+              
+              <div class="security-alert">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Important:</strong> Never deploy directly from a public repository that contains sensitive information. Always use environment variables or secrets management.
+              </div>
+            </div>
+          </div>
+          
+          <div id="error-handling" class="card mb-4">
+            <div class="card-header">
+              <h4 class="mb-0"><i class="fas fa-bug me-2"></i>Error Handling & Troubleshooting</h4>
+            </div>
+            <div class="card-body">
+              <p>The application includes secure error handling to prevent leaking sensitive information:</p>
+              
+              <pre><code>// Global error handler with improved error response
+app.use((err, req, res, next) => {
+  // Log the full error for server-side debugging
+  console.error('Unhandled error:', err);
+  
+  // Send sanitized error in production
+  res.status(500).json({
+    error: 'Internal server error',
+    message: process.env.NODE_ENV === 'production' 
+      ? 'An unexpected error occurred' 
+      : err.message,
+    requestId: req.id // You can add request ID tracking if needed
+  });
+});</code></pre>
+              
+              <h5>What This Means:</h5>
+              <ul>
+                <li>In development: You'll see detailed error messages to help with debugging</li>
+                <li>In production: Only generic error messages are shown to users, preventing information leakage</li>
+              </ul>
+              
+              <h5>Troubleshooting Security Issues:</h5>
+              <ul>
+                <li>If authentication fails, check your API_KEY and ADMIN_PASSWORD in .env</li>
+                <li>If you get CORS errors, check your ALLOWED_ORIGINS setting</li>
+                <li>Use the "development" mode locally to see detailed error messages</li>
+                <li>Check server logs for detailed error information</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div id="security-faq" class="cta-section">
+            <h2 class="mb-4">Security FAQ</h2>
+            
+            <div class="accordion" id="securityFAQ">
+              <div class="accordion-item border-0 mb-3 shadow-sm">
+                <h2 class="accordion-header" id="headingOne">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Do I need enterprise-level security for this application?
+                  </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#securityFAQ">
+                  <div class="accordion-body">
+                    <p>No. This application is designed as a self-hosted educational tool, not an enterprise system. The security measures in place are appropriate for this use case, protecting your API keys and data without unnecessary complexity.</p>
+                    <p>The most important security steps are:</p>
+                    <ul>
+                      <li>Using strong, unique API keys and passwords</li>
+                      <li>Rotating your API key after agent creation</li>
+                      <li>Using Elevenlabs secrets instead of plaintext API keys</li>
+                      <li>Keeping your .env file private</li>
+                      <li>Enabling HTTPS in production</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="accordion-item border-0 mb-3 shadow-sm">
+                <h2 class="accordion-header" id="headingTwo">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    What happens if someone gets access to my API keys?
+                  </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#securityFAQ">
+                  <div class="accordion-body">
+                    <p>If your API keys are compromised, someone could:</p>
+                    <ul>
+                      <li>Access your Calendly schedule and availability</li>
+                      <li>Create or modify agents on your Elevenlabs account</li>
+                      <li>Send SMS messages via your Twilio account (if configured)</li>
+                      <li>Modify your system prompt via GitHub (if configured)</li>
+                    </ul>
+                    <p>If you suspect your keys have been compromised, immediately:</p>
+                    <ol>
+                      <li>Revoke and regenerate all API keys from their respective platforms</li>
+                      <li>Update your .env file with the new keys</li>
+                      <li>Check for any unauthorized changes or activity</li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="accordion-item border-0 mb-3 shadow-sm">
+                <h2 class="accordion-header" id="headingThree">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Is my caller's data secure with this integration?
+                  </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#securityFAQ">
+                  <div class="accordion-body">
+                    <p>This integration handles limited caller data:</p>
+                    <ul>
+                      <li>Phone numbers for time zone detection and SMS delivery</li>
+                      <li>Names for personalized scheduling</li>
+                      <li>Calendar availability data</li>
+                    </ul>
+                    <p>This data is secured through:</p>
+                    <ul>
+                      <li>HTTPS encryption for all data in transit</li>
+                      <li>Secure logging that masks phone numbers</li>
+                      <li>No persistent storage of caller data beyond what Calendly and Elevenlabs already store</li>
+                    </ul>
+                    <p>Note that Elevenlabs and Calendly have their own data handling policies that apply when using their services.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="accordion-item border-0 shadow-sm">
+                <h2 class="accordion-header" id="headingFour">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    Should I implement additional security measures?
+                  </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#securityFAQ">
+                  <div class="accordion-body">
+                    <p>For most educational and personal uses, the current security measures are sufficient. However, if you plan to use this in a more professional or high-traffic setting, consider:</p>
+                    <ul>
+                      <li>Setting up a regular API key rotation schedule (change keys every 90 days)</li>
+                      <li>Implementing IP-based restrictions if your hosting provider supports it</li>
+                      <li>Adding monitoring and alerts for suspicious activity</li>
+                      <li>Conducting regular security audits of your deployment</li>
+                    </ul>
+                    <p>Remember that security should be proportional to your specific use case and the sensitivity of your data.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mt-4">
+              <a href="agent-builder-guide.html#security" class="btn btn-primary">
+                <i class="fas fa-robot me-2"></i>View Agent Security Guide
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="text-center">
+    <div class="container">
+      <p>Designed for the TikTok tutorial series by <a href="https://bramforth.ai" class="text-white">Bramforth.ai</a></p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
